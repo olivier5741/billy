@@ -4,6 +4,8 @@ const billTemplateSheetName = "zz_template_facture"
 const billItemsTemplateSheetName = "zz_template_facture_pièces"
 const customersSheetName = "zz_clients";
 
+// test github deploy
+
 /*
 Logger.log("Application started");
 
