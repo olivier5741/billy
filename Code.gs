@@ -8,7 +8,6 @@ Logger.log("Application started");
 for (const element of array1) {
   console.log(element);
 }
-
 */
 
 
@@ -52,6 +51,12 @@ function createBillBasic(){
   createBill("Basic");
 }
 
+/**
+ * Creates a bill sheet.
+ *  
+ * @param {number} billType The type of the bill (Basic or WithItems)
+ * @return {void}
+ */
 function createBill(billType){
 
   const spreadSheet = SpreadsheetApp.getActiveSpreadsheet();
