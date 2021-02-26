@@ -1,3 +1,5 @@
+// TODO rename bill to invoice
+
 const billTemplateSheetName = "zz_template_facture"
 const billItemsTemplateSheetName = "zz_template_facture_pièces"
 const customersSheetName = "zz_clients";
@@ -10,17 +12,33 @@ for (const element of array1) {
 }
 */
 
+/**
+ * Runs when the add-on is installed.
+ *
+ * @param {object} e The event parameter for a simple onInstall trigger. To
+ *     determine which authorization mode (ScriptApp.AuthMode) the trigger is
+ *     running in, inspect e.authMode. (In practice, onInstall triggers always
+ *     run in AuthMode.FULL, but onOpen triggers may be AuthMode.LIMITED or
+ *     AuthMode.NONE).
+ */
+function onInstall(e) {
+  onOpen();
+}
 
 function onOpen() {
-  
+
   // create menu
   const ui = SpreadsheetApp.getUi();
+
+  ui.createAddonMenu() // Or DocumentApp.
+      .addItem('Aide', 'not implemented yet')
+      .addToUi();
   
   ui.createMenu("FACTURATION")
   .addSubMenu(ui.createMenu("Créer une facture")
-    .addItem("Simple", "createBillBasic")
-    .addItem("Avec pièces", "createBillWithItems"))
-  .addItem("Créer un PDF pour impression de la facture","createMultipagePDF")
+    .addItem("simple", "createBillBasic")
+    .addItem("avec pièces", "createBillWithItems"))
+  .addItem("Imprimer la facture via PDF","createMultipagePDF")
   .addItem("Archiver la facture","archiveBill")
   .addSeparator()
   .addItem("Trier les onglets alph.","sortSheetsByName")
