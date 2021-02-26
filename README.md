@@ -1,6 +1,6 @@
 # Billy
 
-Micro billing for plumbers through google sheets add-on. 
+Micro billing for tradies through google sheets add-on. 
 Support billing, inventory and time sheets (inventory and timesheet are through additional files not provided here). The app is in french.
 
 # Install and use
