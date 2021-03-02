@@ -32,9 +32,12 @@ function onOpen() {
   // create menu
   const ui = SpreadsheetApp.getUi();
 
-  ui.createAddonMenu() // Or DocumentApp.
-      .addItem('Aide', 'not implemented yet')
-      .addToUi();
+  const addOnMenu = ui.createAddonMenu();
+
+  createStockMenu(ui,addOnMenu);
+  addOnMenu.addItem('Aide', 'not implemented yet');
+
+  addOnMenu.addToUi();
   
   ui.createMenu("FACTURATION")
   .addSubMenu(ui.createMenu("Créer une facture")
