@@ -32,12 +32,9 @@ function onOpen() {
   // create menu
   const ui = SpreadsheetApp.getUi();
 
-  const addOnMenu = ui.createAddonMenu();
-
-  createStockMenu(ui,addOnMenu);
-  addOnMenu.addItem('Aide', 'not implemented yet');
-
-  addOnMenu.addToUi();
+  ui.createAddonMenu() // Or DocumentApp.
+      .addItem('Aide', 'not implemented yet')
+      .addToUi();
   
   ui.createMenu("FACTURATION")
   .addSubMenu(ui.createMenu("Créer une facture")
@@ -120,11 +117,11 @@ function createBill(billType){
 
   const customerPostInfo = transpose(
     [[customer.getNameWithTitle(),customer.addressLine1,customer.addressLine2]]);
-  sheet.getRange("F6:F8").setValues(customerPostInfo);
+  sheet.getRange("F8:F10").setValues(customerPostInfo);
 
   if(billType == "Basic"){
-    sheet.deleteRows(51,sheet.getMaxRows()-51+1);
-    sheet.deleteRow(27);
+    sheet.deleteRows(59,sheet.getMaxRows()-59+1);
+    sheet.deleteRow(35);
   }
 
   if(billType == "WithItems"){
@@ -196,6 +193,7 @@ function createMultipagePDF(){
   const printFolder = getFoldersByNameOrCreate(rootFolder,printFolderName);
 
   const printSpreadsheet = SpreadsheetApp.create(s.getName());
+  const dummyPrintSheet = printSpreadsheet.getActiveSheet();
   const printFile = DriveApp.getFileById(printSpreadsheet.getId());
   printFile.moveTo(printFolder);
 
@@ -217,7 +215,7 @@ function createMultipagePDF(){
      ss.deleteSheet(billSheet);
   }
   
-  printSpreadsheet.deleteSheet(printSpreadsheet.getSheetByName("Sheet1"));
+  printSpreadsheet.deleteSheet(dummyPrintSheet); // TODO wrong name in french
 
   const pdf = convertSheetToPdf(printSpreadsheet,undefined,undefined,undefined,true);  
   const pdfFile = printFolder.createFile(pdf);
