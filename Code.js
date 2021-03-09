@@ -29,12 +29,20 @@ function onInstall(e) {
 
 function onOpen() {
 
-  // create menu
-  const ui = SpreadsheetApp.getUi();
+  const ssName = SpreadsheetApp.getActiveSpreadsheet().getName();
 
-  ui.createAddonMenu() // Or DocumentApp.
-      .addItem('Aide', 'not implemented yet')
-      .addToUi();
+  // create menu
+  const ui = SpreadsheetApp.getUi(); // Or DocumentApp.
+
+  const addOnMenu = ui.createAddonMenu();
+      
+  if(ssName == "Stock")
+    createStockMenu(ui,addOnMenu);
+
+  addOnMenu
+    .addSeparator()
+    .addItem('Aide', 'not implemented yet')
+    .addToUi();
   
   ui.createMenu("FACTURATION")
   .addSubMenu(ui.createMenu("Créer une facture")

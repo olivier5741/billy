@@ -1,39 +1,39 @@
 const stockSheetName = "Stock"
 
 function createStockMenu(ui,addOnMenu){
+
+  loadTranslations();
+
   addOnMenu
-    .addSubMenu(ui.createMenu("Stock")
-      .addItem("Créer une entrée", "createInSheet")
-      .addItem("Créer une sortie", "createOutSheet")
-      .addItem("Créer un inventaire", "createInventorySheet")
+    .addSubMenu(ui.createMenu(t("stock.menu.module.name"))
+      .addItem(t("stock.menu.create.entry"), "createInSheet")
+      .addItem(t("stock.menu.create.output"), "createOutSheet")
+      .addItem(t("stock.menu.create.inventory"), "createInventorySheet")
       .addSeparator()
-      .addItem("Ajouter l'entrée au stock", "addInsToStock")
-      .addItem("Soustraire la sortie au stock", "substractOutsToStock")
-      .addItem("Appliquer l'inventaire au stock", "setInventoryToStock")
+      .addItem(t("stock.menu.apply.movement"), "applyMovementToStock")
     );
 }
 
 
-/*
 
 function applyMovementToStock(sheet = SpreadsheetApp.getActiveSheet()){
   const lastWord = sheet.getName().split(" ").pop();
 
-  switch()
+
   createMovementSheet("entrée");
 }
-*/
+
 
 function createInSheet(){
-  createMovementSheet("entrée");
+  createMovementSheet(t("app.stock.sheet.name.entry"));
 }
 
 function createOutSheet(){
-  createMovementSheet("sortie");
+  createMovementSheet(t("app.stock.sheet.name.output"));
 }
 
 function createInventorySheet(){
-  createMovementSheet("inventaire");
+  createMovementSheet(t("app.stock.sheet.name.inventory"));
 }
 
 function createMovementSheet(movementName){
