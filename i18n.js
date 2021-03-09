@@ -1,6 +1,6 @@
 // TODO improvement : one cache per language (+ default) / and or per module
 
-const TRANSLATION_LINK = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQrSBm5JoUpSxMqNBKz5Zaud6QeXj_n1p0Ncc5tyeK15qjTrhUOpuvjBQ-5vxd_sCrsFbjOEXd5uWCc/pub?gid=1935670543&single=true&output=csv";
+const TRANSLATION_LINK = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_Ju3OBcUuNHuPeEM1q1a_T2rIuZEry7nsK1Jvxol13VVzWHkB_J3uiQjUHNxDgAyRd7_oKjZPonJG/pub?gid=1935670543&single=true&output=csv";
 const TRANSLATION_CACHE_KEY = "translations"
 
 const LANGUAGE = "fr";

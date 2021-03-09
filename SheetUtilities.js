@@ -90,3 +90,29 @@ function getFoldersByNameOrCreate(mainFolder, name){
   return path.hasNext() ? 
     path.next() : mainFolder.createFolder(name);
 }
+
+function trimAroundRange(range = SpreadsheetApp.getActiveRange()){
+
+  const rangeFirstRow = range.getRow();
+  const rangeFirstColumn = range.getColumn();
+
+  const rangeLastRow = range.getLastRow()
+  const rangeLastColumn = range.getLastColumn()
+
+  const sheet = range.getSheet()
+  const sheetRowNb = sheet.getMaxRows()
+  const sheetColumnNb = sheet.getMaxColumns()
+
+  if(rangeLastRow != sheetRowNb)
+    sheet.deleteRows(rangeLastRow + 1, sheetRowNb - rangeLastRow)
+
+  if(rangeFirstRow != 1)
+    sheet.deleteRows(1, rangeFirstRow - 1)
+
+  if(rangeLastColumn != sheetColumnNb)
+    sheet.deleteColumns(rangeLastColumn + 1, sheetColumnNb - rangeLastColumn)
+
+  if(rangeFirstColumn != 1)
+    sheet.deleteColumns(1, rangeFirstColumn - 1)
+
+}
