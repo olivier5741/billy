@@ -21,12 +21,32 @@ function loadTranslations() {
 
   const sc = CacheService.getScriptCache();
   sc.put(TRANSLATION_CACHE_KEY,Utilities.jsonStringify(translations));
+  return translations;
+}
+
+function getTranslations(){
+  try{
+    const sc = CacheService.getScriptCache();
+    const json = sc.get(TRANSLATION_CACHE_KEY);
+
+    if(json){
+      return Utilities.jsonParse(json)
+    }else{
+      return loadTranslations();
+    }
+
+
+  }catch(err){
+    Logger.log(err)
+  }
 }
 
 function t(key,lang){
 
-  const sc = CacheService.getScriptCache();
-  const translations = Utilities.jsonParse(sc.get(TRANSLATION_CACHE_KEY))
+  const translations = getTranslations();
+
+  if(!translations)
+    return key;
 
   if(!lang){
     lang = key.startsWith("app") ? APP_LANGUAGE : LANGUAGE;
@@ -42,4 +62,23 @@ function t(key,lang){
     return t(key, DEFAULT_LANGUAGE);     
 
   return tr
+}
+
+function rt(keyStartsWith,name,lang = APP_LANGUAGE){
+  const translations = getTranslations();
+
+  // TODO slow performance
+  for(let [key, value] of Object.entries(translations)){
+    if(key.startsWith(keyStartsWith) == false)
+      continue
+
+    if(value[lang] == name)
+      return key
+  }
+
+  return name
+}
+
+function testRt(){
+  Logger.log(rt("app.stock.sheet.name.","sortie","fr"))
 }

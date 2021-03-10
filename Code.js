@@ -12,19 +12,14 @@ function onInstall(e) {
 }
 
 function onOpen() {
-
-  //loadTranslations(); // TODO use module pattern instead
   
-  // create menu
-  const ui = SpreadsheetApp.getUi(); // Or DocumentApp.
+}
 
-  const addOnMenu = ui.createAddonMenu();
-    
-  //createStockMenu(ui,addOnMenu); // TODO use module pattern for stock and invoice
-  createInvoiceMenu(ui,addOnMenu);
+function buildHomePage(){
 
-  addOnMenu
-    .addSeparator()
-    .addItem('Aide', 'not implemented yet')
-    .addToUi();  
+  const movements = StockApp.getMovementSheetKeys(SpreadsheetApp.getActiveSpreadsheet())
+  const card = StockApp.buildCard(movements);
+  return card;
+
+  //return [card];
 }

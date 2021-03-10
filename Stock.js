@@ -1,67 +1,60 @@
-const stockSheetName = "Stock"
+const StockApp = (function() { 
 
-function createStockMenu(ui,addOnMenu){
+var self ={}
 
-  loadTranslations();
+self.key = "stock"
+self.movementKeys = ["entry","output","inventory"]
 
-  addOnMenu
-    .addSubMenu(ui.createMenu(t("stock.menu.module.name"))
-      .addItem(t("stock.menu.create.entry"), "createInSheet")
-      .addItem(t("stock.menu.create.output"), "createOutSheet")
-      .addItem(t("stock.menu.create.inventory"), "createInventorySheet")
-      .addSeparator()
-      .addItem(t("stock.menu.apply.movement"), "applyMovementToStock")
-    );
+self.movementFunctions = {
+  entry: (sv,v) => sv + v,
+  output: (sv,v) => sv - v,
+  inventory: (sv,v) => v == "" ? sv : v
 }
 
+self.getMovementSheetKeys = function(ss){
+  
+  const sheetNames = getAllSheetNames(ss);
 
-
-function applyMovementToStock(sheet = SpreadsheetApp.getActiveSheet()){
-  const lastWord = sheet.getName().split(" ").pop();
-
-
-  createMovementSheet("entrée");
+  return sheetNames.filter(s => s.startsWith("2")); // TODO hack
 }
 
-
-function createInSheet(){
-  createMovementSheet(t("app.stock.sheet.name.entry"));
-}
-
-function createOutSheet(){
-  createMovementSheet(t("app.stock.sheet.name.output"));
-}
-
-function createInventorySheet(){
-  createMovementSheet(t("app.stock.sheet.name.inventory"));
-}
-
-function createMovementSheet(movementName){
+self.createMovementSheet = function(dto){
+  const movementName = t("app.stock.sheet.name." + dto.key);
   const spreadSheet = SpreadsheetApp.getActiveSpreadsheet();
-  const stockSheet = spreadSheet.getSheetByName(stockSheetName);
+  const movements = self.getMovementSheetKeys(spreadSheet)
+  const stockSheet = spreadSheet.getSheetByName(t("app.stock.sheet.name.stock"));
 
   const insSheet = stockSheet.copyTo(spreadSheet);
-  insSheet.setName(Utilities.formatDate(new Date(), "GMT+1", "yyyy-MM-dd") + " " + movementName);
+  const sheetName = Utilities.formatDate(new Date(), "GMT+1", "yyyy-MM-dd") + " " + movementName
+  insSheet.setName(sheetName);
   insSheet.getRange("C2:C").clear();
   insSheet.activate();
+  
+  movements.push(sheetName)
+
+  return CardService.newActionResponseBuilder()
+        .setNavigation(CardService.newNavigation().updateCard(self.buildCard(movements)))
+        .build();
 }
 
-function addInsToStock() {
-  performMovementOnStock((sv,v) => sv + v);
+self.applyMovementSheet = function (dto){
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const movements = self.getMovementSheetKeys(ss)
+
+  const stockSheet = ss.getSheetByName(t("app.stock.sheet.name.stock"));
+  const sheet = ss.getSheetByName(dto.key);
+  const sheetName = sheet.getName();
+  const sheetNameLastWord = sheetName.split(" ").pop();
+  const key = rt("app.stock.sheet.name.",sheetNameLastWord,APP_LANGUAGE)
+
+  self.performMovement(self.movementFunctions[key.split(".").pop()],sheet,stockSheet)
+  
+  return CardService.newActionResponseBuilder()
+        .setNavigation(CardService.newNavigation().updateCard(self.buildCard(movements.filter(m => m != sheetName))))
+        .build();
 }
 
-function substractOutsToStock() {
-  performMovementOnStock((sv,v) => sv - v);
-}
-
-function setInventoryToStock() {
-  performMovementOnStock((sv,v) => v == "" ? sv : v);
-}
-
-function performMovementOnStock(
-  action,
-  sheet = SpreadsheetApp.getActiveSheet(),
-  stockSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(stockSheetName)) {
+self.performMovement = function(action,sheet,stockSheet) {
 
   const values = sheet.getRange("A2:C").getValues();
   const stockRange = stockSheet.getRange("A2:C");
@@ -77,3 +70,56 @@ function performMovementOnStock(
   stockSheet.activate();
   sheet.getParent().deleteSheet(sheet);
 }
+
+self.buildCard = function(movements){
+  const actionSection = CardService.newCardSection()
+
+  for(const k of self.movementKeys){
+    actionSection.addWidget(
+        CardService.newTextButton()
+          .setText(t("stock.menu.create." + k))
+          .setOnClickAction(CardService.newAction()
+            .setFunctionName("pipeline")
+            .setParameters(
+              {
+                moduleKey: self.key, 
+                moduleFunction: "createMovementSheet", 
+                dtoKey: k
+              })))
+  } 
+
+  const movementSection = CardService.newCardSection();
+
+  for(const m of movements){
+    movementSection.addWidget(
+      CardService.newKeyValue()
+        .setContent(m)
+        .setOnClickAction(CardService.newAction().setFunctionName("test"))
+        .setButton(CardService.newTextButton()
+          .setText("Apply") // "stock.menu.apply.movement"
+          .setOnClickAction(
+            CardService.newAction()
+            .setFunctionName("pipeline")
+            .setParameters(
+              {
+                moduleKey: self.key, 
+                moduleFunction: "applyMovementSheet", 
+                dtoKey: m
+              })))
+          )
+  }
+
+  const builder = CardService.newCardBuilder()
+    .setHeader(CardService.newCardHeader()
+             .setTitle(t("stock.menu.module.name")))
+    .addSection(actionSection)
+  
+  if(movements.length > 0)
+    builder.addSection(movementSection)
+
+  return builder.build();
+}
+
+return self
+
+})()

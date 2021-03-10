@@ -1,5 +1,20 @@
 //const MODULE_KEYS = ["me","members","stock","planning","customers","quoting","invoicing"]
 
+function test(){
+
+}
+
+const BILLY = {
+   stock: StockApp
+ }
+
+function pipeline(e){
+  const params = e.parameters;  
+  return BILLY[params.moduleKey][params.moduleFunction]({
+    key: params.dtoKey
+  })
+}
+
 const MODULES = [MeApp];
 
 class Party {

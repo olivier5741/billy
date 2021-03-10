@@ -11,11 +11,12 @@
   ],
   "addOns": {
     "common": {
-      "name": "Billy",
-      "logoUrl": "https://www.gstatic.com/images/branding/product/1x/translate_24dp.png",
+      "name": "Billy ERP",
+      "logoUrl": "https://drive.google.com/uc?id=1sNKatvKRhP8iqyXk0ZrWbMuGTqLoAPEa",
       "layoutProperties": {
-        "primaryColor": "#2772ed"
-      }
+        "primaryColor": "#f2680c"
+      },
+      "homepageTrigger": { "runFunction": "buildHomePage" }
     },
     "sheets" : {}
   }

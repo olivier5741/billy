@@ -16,6 +16,17 @@ function protectFormulaRangeWithWarning(range){
   p.setWarningOnly(true);
 }
 
+function getAllSheetNames(
+  ss= SpreadsheetApp.getActiveSpreadsheet()){
+
+  const names = new Array();
+
+  for (let s in ss.getSheets())  
+    names.push(ss.getSheets()[s].getName())
+  
+  return names
+}
+
 function sortSheetsByName() {
   const aSheets = new Array();
   const ss = SpreadsheetApp.getActiveSpreadsheet();
