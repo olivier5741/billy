@@ -3,7 +3,7 @@
 const TRANSLATION_LINK = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_Ju3OBcUuNHuPeEM1q1a_T2rIuZEry7nsK1Jvxol13VVzWHkB_J3uiQjUHNxDgAyRd7_oKjZPonJG/pub?gid=1935670543&single=true&output=csv";
 const TRANSLATION_CACHE_KEY = "translations"
 
-const LANGUAGE = "fr";
+const LANGUAGE = "en";
 const APP_LANGUAGE = "fr"
 const DEFAULT_LANGUAGE = "en";
 

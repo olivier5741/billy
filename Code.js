@@ -8,18 +8,29 @@
  *     AuthMode.NONE).
  */
 function onInstall(e) {
-  onOpen();
+  onOpen()
 }
 
-function onOpen() {
+function onOpen(e) {
+}
+
+function buildCommonHomePage(){
+  return BillyApp.buildInstancesView()
+}
+
+function buildSheetsHomePage(){
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet()
+  const parentFolder = DriveApp.getFileById(spreadsheet.getId()).getParents().next()
+
+  Logger.log(spreadsheet.getName())
   
-}
+  if(BillyApp.isFolderAnInstance(parentFolder.getName()) == false)
+    return BillyApp.buildInstancesView();
+  
+  const moduleKey = BillyApp.getModuleKeyFromSpreadsheetName(spreadsheet.getName())
+  
+  if(moduleKey == false || Object.keys(BillyApp.modules).includes(moduleKey) == false)
+    return BillyApp.buildInstanceView({id: parentFolder.getId(), name: BillyApp.getInstanceNameFromFolder(parentFolder.getName())})    
 
-function buildHomePage(){
-
-  const movements = StockApp.getMovementSheetKeys(SpreadsheetApp.getActiveSpreadsheet())
-  const card = StockApp.buildCard(movements);
-  return card;
-
-  //return [card];
+  return BillyApp.modules[moduleKey].buildCard();
 }
