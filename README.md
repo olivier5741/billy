@@ -3,6 +3,8 @@
 Micro billing for tradies through google sheets add-on. 
 Support billing, inventory and time sheets (inventory and timesheet are through additional files not provided here). The app is in french.
 
+![Billy stock management menu](https://lh3.googleusercontent.com/HnhfimqE7DQfxsACgECc7oe2khaKl9-AuSlYCr7PX2derFFZYGc5lnv3C94wPHJvRrU6CW2Ehc5yR4tkY7DOZMeWESJHO_0CJLxfmAWD6k1QmRmAZsgX-VqbPLLWIFvF0HXlldypdx0=w600-h400)
+
 # Install and use
 
 * Make a copy (you need a google account) of the following sheet https://docs.google.com/spreadsheets/d/1-e_bFuhDniOCnR9-pmYMlhpSFKaDhrhSskj6pAtWrPU.
