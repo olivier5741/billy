@@ -140,6 +140,24 @@ self.buildInstanceView = function(dto){
   return builder.build()
 }
 
+self.newParty = function(){
+  return new Party()
+}
+
+class Party {
+  constructor() {
+    this.name = "";
+    this.nameTitle = "";
+    this.phoneNumber = "";
+    this.email = "";
+    this.addressLine1 = "";
+    this.addressLine2 = "";
+    this.addressLine3 = "";
+    this.bankAccountNumber = "";
+    this.vatNumber = "";
+  }
+}
+
 return self
 
 })()

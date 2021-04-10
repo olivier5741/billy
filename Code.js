@@ -14,6 +14,10 @@ function onInstall(e) {
 function onOpen(e) {
 }
 
+function buildIconUrl(name) {
+  return 'https://cdn.rawgit.com/webdog/octicons-png/bd02e5bc/' + name + '.svg.png';
+}
+
 function buildCommonHomePage(){
   return BillyApp.buildInstancesView()
 }

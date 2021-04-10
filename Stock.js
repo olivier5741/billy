@@ -81,7 +81,9 @@ self.buildCard = function(){
               })))
   } 
 
-  actionSection.addWidget(CardService.newTextButton()
+  actionSection.addWidget(  //CardService.newImageButton()..setAltText(t("stock.menu.apply.movement")).setIconUrl(buildIconUrl("diff-added"))
+  
+  CardService.newTextButton()
           .setText(t("stock.menu.apply.movement"))
           .setOnClickAction(CardService.newAction()
             .setFunctionName("pipeline")
@@ -93,7 +95,9 @@ self.buildCard = function(){
 
   const builder = CardService.newCardBuilder()
     .setHeader(CardService.newCardHeader()
+            // .setImageUrl("https://www.gstatic.com/images/icons/material/system/1x/pets_black_48dp.png")
              .setTitle(t("stock.menu.module.name")))
+             
     .addSection(actionSection)
 
   return builder.build();
